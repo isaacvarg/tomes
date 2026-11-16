@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morse Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/morse.js"></script>
+</head>
+<body>
+<main>
+<p class="kicker">Morse code · Reference</p>
+<h1>Cheat sheet</h1>
+<p class="lede">Timing rules, plus only the characters you've learned so far. Each one is written the way it sounds.</p>
+
+<h2 id="timing">Timing</h2>
+<table>
+  <tr><th>Element</th><th>Units</th></tr>
+  <tr><td>dit</td><td>1 on</td></tr>
+  <tr><td>dah</td><td>3 on</td></tr>
+  <tr><td>gap inside a character</td><td>1 off</td></tr>
+  <tr><td>gap between letters</td><td>3 off</td></tr>
+  <tr><td>gap between words</td><td>7 off</td></tr>
+</table>
+<p>One unit = <code>1200 ÷ WPM</code> ms (standard word PARIS = 50 units). 20 WPM → 60 ms; 10 WPM → 120 ms.
+<span class="small muted">Sources: <a href="https://www.itu.int/rec/R-REC-M.1677-1-200910-I/">ITU-R M.1677-1</a>, <a href="https://en.wikipedia.org/wiki/Morse_code#Speed_in_words_per_minute">Wikipedia</a>.</span></p>
+
+<h2 id="characters">Characters learned</h2>
+<table id="learned">
+  <tr><th>Char</th><th>Sounds like</th><th class="no-print">Hear</th><th>From</th></tr>
+</table>
+<p class="small muted no-print">Use these to check yourself, not to learn from. If you're reading these before hearing the sound, close the sheet and run a drill instead.</p>
+
+<nav class="lesson-nav">
+  <a href="../lessons/0001-first-two-sounds.html">Lesson 1: Your first two sounds</a>
+</nav>
+</main>
+<script>
+  /* Add a row here each time a lesson introduces characters. */
+  const LEARNED = [
+    { ch: "K", lesson: "0001-first-two-sounds", n: 1 },
+    { ch: "M", lesson: "0001-first-two-sounds", n: 1 },
+  ];
+  const t = document.getElementById("learned");
+  LEARNED.forEach(({ ch, lesson, n }) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td style="font-size:1.4rem">${ch}</td><td class="say" style="white-space:nowrap">${Morse.say(ch)}</td>
+      <td class="no-print"><button class="play" data-play="${ch}">play</button></td>
+      <td><a href="../lessons/${lesson}.html">Lesson ${n}</a></td>`;
+    t.appendChild(tr);
+  });
+</script>
+</body>
+</html>

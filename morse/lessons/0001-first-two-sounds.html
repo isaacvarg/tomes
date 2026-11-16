@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 · First Two Sounds</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/morse.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/listen-drill.js"></script>
+<script src="../assets/send-drill.js"></script>
+</head>
+<body>
+<main>
+<p class="kicker">Morse code · Lesson 1 · about 12 minutes</p>
+<h1>Your first two sounds</h1>
+<p class="lede">By the end of this lesson you'll tell <strong>K</strong> from <strong>M</strong> by ear at full speed, and key both from memory. That's the first two of the 36 characters in <a href="../MISSION.md">your mission</a>.</p>
+
+<h2>Morse is a rhythm, not a chart</h2>
+<p>Most people meet Morse as a table of dots and dashes. Skip that table. Every serious method agrees that you should learn each character as a <em>sound</em>. The ARRL advises learning the alphabet <q>by the way it sounds</q>, using dits and dahs, not printed dots and dashes.<sup class="cite"><a href="https://www.arrl.org/learning-morse-code">[1]</a></sup> Pierpont goes further: a chart adds a needless translation step every time you hear a character, and people who learn visually tend to stall at around 10 WPM and have to relearn by sound.<sup class="cite"><a href="https://www.qsl.net/ng3p/haminfo/pierpont/c29.htm">[2]</a></sup></p>
+<p class="note">This is why you'll hear every character before you see what it's made of. The written pattern only shows up afterwards, as feedback.</p>
+<p>So we say characters out loud the way they sound. K is <span class="say">dah-di-dah</span>, not "dash dot dash". A dot in the middle of a character is clipped to "di", because that's how it sounds at speed.</p>
+
+<h2>The timing grid</h2>
+<p>All Morse timing is built from one <strong>unit</strong>. The international standard sets everything as a multiple of it:<sup class="cite"><a href="https://www.itu.int/rec/R-REC-M.1677-1-200910-I/">[3]</a></sup></p>
+
+<div class="panel">
+  <div class="timeline" aria-hidden="true">
+    <span class="on" style="flex:3"></span><span class="off" style="flex:1"></span>
+    <span class="on" style="flex:1"></span><span class="off" style="flex:3"></span>
+    <span class="on" style="flex:1"></span><span class="off" style="flex:7"></span>
+    <span class="on" style="flex:3"></span>
+  </div>
+  <div class="timeline-labels" aria-hidden="true">
+    <span style="flex:3">dah 3</span><span style="flex:1">1</span>
+    <span style="flex:1">dit</span><span style="flex:3">letter gap 3</span>
+    <span style="flex:1">dit</span><span style="flex:7">word gap 7</span>
+    <span style="flex:3">dah</span>
+  </div>
+  <table class="small" style="margin-bottom:0">
+    <tr><th>Element</th><th>Length</th></tr>
+    <tr><td>dit</td><td>1 unit of tone</td></tr>
+    <tr><td>dah</td><td>3 units of tone</td></tr>
+    <tr><td>gap inside a character</td><td>1 unit of silence</td></tr>
+    <tr><td>gap between letters</td><td>3 units of silence</td></tr>
+    <tr><td>gap between words</td><td>7 units of silence</td></tr>
+  </table>
+</div>
+
+<p>Speed is measured in <strong>words per minute</strong> (WPM), where the standard word "PARIS" is exactly 50 units long. That makes one unit last <code>1200 ÷ WPM</code> milliseconds.<sup class="cite"><a href="https://en.wikipedia.org/wiki/Morse_code#Speed_in_words_per_minute">[4]</a></sup> At the 20 WPM you'll hear today, a dit is 60 ms. That's too fast to count dits, which is the point. Koch found that characters only start to sound like a single shape when they're sent fast, and that slow characters lead straight to that 10 WPM plateau.<sup class="cite"><a href="https://www.qsl.net/ng3p/haminfo/pierpont/c29.htm">[2]</a></sup></p>
+
+<h3>Quick check (from memory, no scrolling up)</h3>
+<div class="quiz" data-answer="b">
+  <p>How many units long is a dah?</p>
+  <div class="options"><button data-k="a">1</button><button data-k="b">3</button><button data-k="c">5</button><button data-k="d">7</button></div>
+  <p class="why">Three units, three times a dit. When you send, you're aiming for that 3:1 ratio.</p>
+</div>
+<div class="quiz" data-answer="d">
+  <p>How many units of silence go between two words?</p>
+  <div class="options"><button data-k="a">1</button><button data-k="b">3</button><button data-k="c">5</button><button data-k="d">7</button></div>
+  <p class="why">Seven. One unit separates the elements inside a character, three separate letters, and seven separate words.</p>
+</div>
+<div class="quiz" data-answer="b">
+  <p>At 20 WPM, how long is one unit?</p>
+  <div class="options"><button data-k="a">40 ms</button><button data-k="b">60 ms</button><button data-k="c">80 ms</button><button data-k="d">90 ms</button></div>
+  <p class="why">1200 ÷ 20 = 60 ms. A dah at 20 WPM is 180 ms.</p>
+</div>
+
+<h2>Meet K and M</h2>
+<p>Press each one a few times. Say it out loud as it plays.</p>
+<div class="panel" style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;text-align:center">
+  <div><div class="drill-big">K</div><p class="say" style="margin:.3rem 0">dah-di-dah</p><button class="play" data-play="K">play</button></div>
+  <div><div class="drill-big">M</div><p class="say" style="margin:.3rem 0">dah-dah</p><button class="play" data-play="M">play</button></div>
+</div>
+<p>K has a lilt in the middle, and M is two flat beats. Listen for that <em>shape</em>, not the parts. Two at a time is how Koch-style courses start: two characters at full speed, with a new one added once you reach 90% accuracy.<sup class="cite"><a href="https://www.arrl.org/learning-morse-code">[1]</a></sup></p>
+
+<h2>Drill 1: hear it</h2>
+<p>You'll hear K or M. Press the matching key on your keyboard (<kbd>k</kbd> or <kbd>m</kbd>) or click. Answer on instinct; a quick wrong answer teaches more than a slow, counted right one. When you miss, you'll hear the correct character again.</p>
+<div class="drill" data-listen-drill data-id="l1-KM" data-chars="KM" data-trials="30"></div>
+<p class="small muted">Goal: 90% or better over your last 20 answers. Your median response time is how long you take to name a character. Watch it drop below about a second as the sounds become automatic.</p>
+
+<h2>Drill 2: send it</h2>
+<p>Now the other direction. You'll see a letter. Recall its sound in your head first, then key it by holding the <kbd>space</kbd> bar: hold longer for a dah, tap for a dit. Pause, and the drill decodes what you sent. Start at 10 WPM. Your sending can be slower than your listening, but keep the 3:1 rhythm.</p>
+<div class="drill" data-send-drill data-id="s1-KM" data-chars="KM" data-rounds="10"></div>
+<p class="small muted">"Hear it first" is there if your memory goes blank, but try without it: the effort of recalling is what makes it stick.</p>
+
+<h2>Before you close this tab</h2>
+<div class="callout">
+  <p style="margin-top:0"><strong>Come back tomorrow</strong> and run both drills again before you start anything new. One session today plus one tomorrow builds more long-term memory than two sessions back to back. Once Drill 1 hits 90%, ask me for Lesson 2.</p>
+  <p style="margin-bottom:0">Tomorrow, before you press anything: hum K and M from memory. If you can, the sounds are already sticking.</p>
+</div>
+
+<div class="source">
+  <p class="kicker">Primary source</p>
+  <p style="margin:0">William G. Pierpont, <a href="https://www.qsl.net/ng3p/haminfo/pierpont/c29.htm"><em>The Art &amp; Skill of Radio-Telegraphy</em>, ch. 29 "The Koch Researches"</a>. The research behind full-speed characters and adding them one at a time. A short, readable chapter.</p>
+</div>
+
+<p class="ask">Anything unclear, or a drill feels off? Ask me, your teacher, in the chat. Questions like "why does K feel like M?" or "my dahs keep coming out as dits" are exactly what I'm here for.</p>
+
+<nav class="lesson-nav">
+  <span class="muted">← Start of course</span>
+  <a href="../reference/cheat-sheet.html">Cheat sheet: timing and characters</a>
+  <span class="muted">Lesson 2 →</span>
+</nav>
+
+<hr>
+<ol class="small muted">
+  <li><a href="https://www.arrl.org/learning-morse-code">ARRL, "Learning Morse Code"</a></li>
+  <li><a href="https://www.qsl.net/ng3p/haminfo/pierpont/c29.htm">Pierpont, <em>The Art &amp; Skill of Radio-Telegraphy</em>, ch. 29</a></li>
+  <li><a href="https://www.itu.int/rec/R-REC-M.1677-1-200910-I/">ITU-R M.1677-1, <em>International Morse code</em> (2009)</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Morse_code#Speed_in_words_per_minute">Wikipedia, "Morse code": speed in words per minute</a></li>
+</ol>
+</main>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tomes",
+      "runtimeExecutable": "/nix/store/14igz2wn7wz6sgk0yp9pn4nh9qfl4chi-python3-3.14.10/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "/home/isaac/forge/tomes"],
+      "port": 8765
+    }
+  ]
+}
