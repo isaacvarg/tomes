@@ -12,6 +12,8 @@
     const chars = el.dataset.chars.split("");
     const trials = Number(el.dataset.trials) || 30;
     const id = el.dataset.id;
+    // data-focus: the newest character, played about half the time so it gets the most practice
+    const focus = chars.length > 1 && chars.includes(el.dataset.focus) ? el.dataset.focus : null;
     const saved = M.store.get("drill:" + id, { sessions: [] });
 
     el.innerHTML = `
@@ -68,8 +70,9 @@
 
     function pick() {
       // avoid long runs of the same character, which let you guess instead of listen
+      const pool = focus && Math.random() < 0.5 ? [focus] : focus ? chars.filter((x) => x !== focus) : chars;
       let c;
-      do { c = chars[Math.floor(Math.random() * chars.length)]; }
+      do { c = pool[Math.floor(Math.random() * pool.length)]; }
       while (results.length > 1 && c === current && Math.random() < 0.5);
       return c;
     }
