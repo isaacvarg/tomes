@@ -34,6 +34,7 @@
       <div class="stats">
         <span>Clean sends <b class="clean">0</b>/<span class="done">0</span></span>
         <span>Your dah : dit <b class="ratio">–</b> <span class="small">(aim for 3)</span></span>
+        <span>Dit <b class="dit">–</b> · dah <b class="dah">–</b> <span class="small">units (aim 1 · 3)</span></span>
       </div>
       <p class="small muted history" style="text-align:center;margin-bottom:0"></p>`;
 
@@ -42,7 +43,9 @@
     const startBtn = $(".start"), hintBtn = $(".hint"), wpmSel = $(".wpm");
 
     let running = false, armed = false, current = null, round = 0, clean = 0, hints = 0;
-    let presses = [], downAt = 0, release = null, idleTimer = null, ratios = [];
+    // Every dit and dah keyed this session, in units of the chosen speed (ideal: 1 and 3).
+    let presses = [], downAt = 0, release = null, idleTimer = null, ditUnits = [], dahUnits = [];
+    const avg = (a) => a.reduce((x, y) => x + y, 0) / a.length;
 
     const unit = () => M.unitMs(Number(wpmSel.value));
 
@@ -50,9 +53,18 @@
       const s = saved.sessions;
       if (!s.length) { $(".history").textContent = "No sessions yet."; return; }
       const last = s[s.length - 1];
-      $(".history").textContent = `Last session ${last.date}: ${last.clean}/${last.rounds} clean at ${last.wpm} WPM. Sessions: ${s.length}.`;
+      const lengths = last.ditU ? ` Dit ${last.ditU} · dah ${last.dahU} units.` : "";
+      $(".history").textContent = `Last session ${last.date}: ${last.clean}/${last.rounds} clean at ${last.wpm} WPM.${lengths} Sessions: ${s.length}.`;
     }
     showHistory();
+
+    /* Session averages. The ratio is mean dah over mean dit; the unit lengths show which end is off. */
+    function updateLengths() {
+      const d = ditUnits.length ? avg(ditUnits) : null, h = dahUnits.length ? avg(dahUnits) : null;
+      $(".dit").textContent = d ? d.toFixed(1) : "–";
+      $(".dah").textContent = h ? h.toFixed(1) : "–";
+      $(".ratio").textContent = d && h ? (h / d).toFixed(1) : "–";
+    }
 
     wpmSel.addEventListener("change", () => { saved.wpm = Number(wpmSel.value); M.store.set("drill:" + id, saved); });
 
@@ -96,16 +108,15 @@
       const decoded = M.DECODE[pattern];
       const ok = pattern === M.CODE[current];
 
-      const dits = durs.filter((d) => d < 2 * u), dahs = durs.filter((d) => d >= 2 * u);
+      const dits = durs.filter((d) => d < 2 * u).map((d) => d / u);
+      const dahs = durs.filter((d) => d >= 2 * u).map((d) => d / u);
+      ditUnits.push(...dits); dahUnits.push(...dahs);
+      updateLengths();
+      // Name the end that's off (a low ratio can mean long dits or short dahs).
       let tip = "";
-      if (dits.length && dahs.length) {
-        const avg = (a) => a.reduce((x, y) => x + y, 0) / a.length;
-        const r = avg(dahs) / avg(dits);
-        ratios.push(r);
-        $(".ratio").textContent = (ratios.reduce((x, y) => x + y, 0) / ratios.length).toFixed(1);
-        if (r < 2.3) tip = " Your dahs are a bit short: hold them about 3× as long as a dit.";
-        else if (r > 4) tip = " Your dahs are a bit long: about 3× a dit is the target.";
-      }
+      if (dits.length && avg(dits) > 1.4) tip += ` Your dits ran long (${avg(dits).toFixed(1)} units, aim for 1): tap and lift straight away.`;
+      if (dahs.length && avg(dahs) < 2.5) tip += ` Your dahs were short (${avg(dahs).toFixed(1)} units, aim for 3): hold them a little longer.`;
+      else if (dahs.length && avg(dahs) > 3.8) tip += ` Your dahs ran long (${avg(dahs).toFixed(1)} units, aim for 3).`;
       const gaps = presses.slice(1).map((p, i) => p.start - presses[i].end);
       if (gaps.some((g) => g > 2.5 * u)) tip += " Keep the gaps inside a letter short (1 unit), or a receiver may hear two letters.";
 
@@ -142,7 +153,9 @@
 
     function finish() {
       running = false;
-      saved.sessions.push({ date: new Date().toISOString().slice(0, 10), clean, rounds, wpm: Number(wpmSel.value), hints });
+      const r1 = (a) => (a.length ? Math.round(avg(a) * 10) / 10 : null);
+      saved.sessions.push({ date: new Date().toISOString().slice(0, 10), clean, rounds, wpm: Number(wpmSel.value), hints,
+        ditU: r1(ditUnits), dahU: r1(dahUnits) });
       M.store.set("drill:" + id, saved);
       target.textContent = `${clean}/${rounds}`;
       msg.className = "drill-msg " + (clean / rounds >= 0.9 ? "good" : "");
@@ -155,8 +168,8 @@
     }
 
     startBtn.addEventListener("click", () => {
-      running = true; round = 0; clean = 0; hints = 0; ratios = [];
-      $(".clean").textContent = "0"; $(".done").textContent = "0"; $(".ratio").textContent = "–";
+      running = true; round = 0; clean = 0; hints = 0; ditUnits = []; dahUnits = [];
+      $(".clean").textContent = "0"; $(".done").textContent = "0"; updateLengths();
       viz.innerHTML = "";
       startBtn.disabled = true;
       nextRound();
